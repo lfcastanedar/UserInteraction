@@ -1,0 +1,42 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Administrar Usuarios</h1>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="text-end">
+            <a type="button" class="btn btn-success" [routerLink]="['./nuevo_usuario']">Crear Usuario</a>
+        </div>
+        <app-loading *ngIf="!requestIsSending"></app-loading>
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered dataTable" *ngIf="requestIsSending">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Comisaria</th>
+                    <th>Creado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of userList">
+                    <td>{{ data.first_name + " " + data.last_name }}</td>
+                    <td>{{ data.email }}</td>
+                    <td>{{ data.role_title }}</td>
+                    <td>{{ data.family_commissary_name }}</td>
+                    <td>{{ data.created_at | date}}</td>
+                    <td class="text-center" style="width: 100px;">
+                        <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" [routerLink]="['./editar_usuario', data.id]">
+                            <i class="far fa-edit"></i>
+                        </button>
+                        <button class="btn btn-datatable btn-icon btn-transparent-dark me-2">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

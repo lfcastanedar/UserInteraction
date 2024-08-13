@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Detalle del Sujeto Procesal</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="mb-3">
+        <h5 style="color: #4e73df; border-bottom: 3px solid #4e73df;">Información Básica</h5>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-12 ">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.first_name | titlecase }}">
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.last_name | titlecase }}">
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <label class="form-label">Tipo de documento</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.document_type_name | titlecase }}">
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <label class="form-label">Número de documento</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.dni | titlecase }}">
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3 col-sm-12 ">
+            <label class="form-label">Edad</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.age }}">
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <label class="form-label">Desplazado</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.displaced == true ? 'Si' : 'No'}}">
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <label class="form-label">Ocupación</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.occupation | titlecase }}">
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <label class="form-label">EPS</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.health_promoting_entity_name | titlecase }}">
+        </div>
+    </div>
+    <div class="my-3 ">
+        <h5 style="color: #4e73df; border-bottom: 3px solid #4e73df;">Tipo de Persona</h5>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-12 ">
+            <label class="form-label">Tipo de persona</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.person_type_name | titlecase }}">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">Parentesco con el presunto agresor</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.relationship_type_name | titlecase }}">
+        </div>
+    </div>
+    <div class="my-3 ">
+        <h5 style="color: #4e73df; border-bottom: 3px solid #4e73df;">Tipo de Persona</h5>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-12 ">
+            <label class="form-label">Telefóno</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.telephone }}">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">Celular</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.mobile }}">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">Correo electrónico</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.email }}">
+        </div>
+        
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-6 col-sm-12">
+            <label class="form-label">Dirección</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.address | titlecase }}">
+        </div>
+        <div class="col-md-6 col-sm-12 ">
+            <label class="form-label">Barrio</label>
+            <input type="text" class="form-control" disabled value="{{ participanDetail.neighborhood | titlecase }}">
+        </div>
+    </div>
+</div>

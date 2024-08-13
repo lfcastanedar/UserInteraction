@@ -1,0 +1,85 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Flujo de la Denuncia</h1>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <app-loading *ngIf="requestIsSendingForDetail"></app-loading>
+        <div *ngIf="!requestIsSendingForDetail">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label">Título</label>
+                    <input type="text" class="form-control" disabled value="{{ documentDetail.title | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label">Módulo</label>
+                    <input type="text" class="form-control" disabled
+                        value="{{ documentDetail.model_pages_name | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12 mt-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" disabled value="{{ documentDetail.address | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12 mt-3">
+                    <label class="form-label">Estado</label>
+                    <input type="text" class="form-control" disabled
+                        value="{{ documentDetail.steps_title | titlecase }}">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label">Nuevo Estado</label>
+                    <select class="form-select" formControlName="step_id" (change)="onChangeStep($event.target)">
+                        <option value="" selected>Selecciona una opción</option>
+                        <option *ngFor="let item of listOfSteps" value="{{ item.id }}">{{ item.title }}</option>
+                    </select>
+                    <div class="form-text invalid-input"
+                        *ngIf="step_id?.errors?.['required'] && step_id?.touched">*Este
+                        campo es obligatorio</div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label">Cargo</label>
+                    <input *ngIf="roleSelected == 'commissioner'" type="text" class="form-control" disabled value="Comisario de Familia">
+                    <select *ngIf="roleSelected == ''" class="form-select" (change)="selectRole($event.target)" formControlName="role_id">
+                        <option value="" selected>Selecciona una opción</option>
+                        <option *ngFor="let role of listOfUsersByRole" value="{{ role.id }}">{{ role.title }}</option>
+                    </select>
+                    <div class="form-text invalid-input"
+                        *ngIf="role_id?.errors?.['required'] && role_id?.touched">*Este
+                        campo es obligatorio</div>
+                </div>
+                <div class="col-md-6 col-sm-12 mt-3">
+                    <label class="form-label">Usuario</label>
+                    <select class="form-select" formControlName="user_id">
+                        <option value="" selected>Selecciona una opción</option>
+                        <option *ngFor="let item of listOfUsers" value="{{ item.id }}">{{ item.first_name | titlecase }}
+                            {{ item.last_name | titlecase }}</option>
+                    </select>
+                    <div class="form-text invalid-input"
+                        *ngIf="user_id?.errors?.['required'] && user_id?.touched">*Este
+                        campo es obligatorio</div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="NgxEditor__Wrapper">
+                    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+                    <ngx-editor [editor]="editor" formControlName="comment" [placeholder]="'Escriba un comentario'"
+                    ></ngx-editor>
+                  </div>
+                <!-- <textarea [froalaEditor]='options' formControlName="comment"></textarea> -->
+            </div>
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-secondary mx-1" (click)="clearForm()" aria-label="Left Align">
+                    <i class="fas fa-eraser mr-2"></i>Limpiar
+                </button>
+                <app-loading-button class="btn btn-success mx-1" 
+                    [type]="buttonTypes.submit"
+                    [requestIsSending]="requestIsSending"
+                    title="Registrar" (click)="submit()"></app-loading-button>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,96 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Agregar Documento</h1>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Información básica </h6>
+            </div>
+            <div class="card-body">
+                <app-loading *ngIf="requestIsSendingForDetail"></app-loading>
+                <div *ngIf="!requestIsSendingForDetail" class="row">
+                    <div class="col-md-12">
+                        <label class="form-label">Título</label>
+                        <input type="text" class="form-control" disabled value="{{ documentDetail.title }}">
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <label class="form-label">Módulo</label>
+                        <input type="text" class="form-control" disabled value="{{ documentDetail.model_pages_name }}">
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-3">
+                        <label class="form-label">No de Proceso</label>
+                        <input type="text" class="form-control" disabled value="{{ documentDetail.document_number }}">
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-3">
+                        <label class="form-label">Estado</label>
+                        <input type="text" class="form-control" disabled value="{{ documentDetail.steps_title }}">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Subir Documento</h6>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="form">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 row">
+                            <div class="col-md-12">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" formControlName="name">
+                                <div class="form-text invalid-input"
+                                    *ngIf="name?.errors?.['required'] && name?.touched">*Este
+                                    campo es obligatorio</div>
+                            </div>
+                            <div class="col-sm-12 mt-3">
+                                <label class="form-label">Origen</label>
+                                <select class="form-select" formControlName="page_control_type_id">
+                                    <option value="" selected>Selecciona una opción</option>
+                                    <option *ngFor="let item of pageControlTypes" value="{{ item.id }}">{{ item.name }}
+                                    </option>
+                                </select>
+                                <div class="form-text invalid-input"
+                                    *ngIf="page_control_type_id?.errors?.['required'] && page_control_type_id?.touched">
+                                    *Este
+                                    campo es obligatorio</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mt-3" style="display: flex; align-items: center;justify-content: center;">
+                                <label class="custom-file-upload lift">
+                                    <input type="file" accept="application/pdf" (change)="handleFileInput($event.target)" />
+                                    <i class="fas fa-upload fa-7x"></i>
+                                </label>
+                                <div style="margin-left: 15px; width: 200px;">
+                                    <p><b>Archivo:</b> {{ infoFile?.name }}</p>
+                                    <p><b>Tamaño:</b> {{ infoFile?.size != null ? infoFile?.size + " kb" : '' }}</p>
+                                </div>
+                            </div>
+                            <div class="form-text invalid-input text-center" *ngIf="base64?.errors?.['required'] && base64?.touched">
+                                *Cargar un archivo PDF es obligatorio</div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 text-center">
+
+                            <button type="button" class="btn btn-secondary mx-1" aria-label="Left Align" (click)="clearForm()">
+                                <i class="fas fa-eraser mr-2" ></i>Limpiar
+                            </button>
+                            <app-loading-button class="btn btn-success mx-1" [type]="buttonTypes.submit"
+                                [requestIsSending]="requestIsSending" [icon]="'fas fa-stream mr-2'" title="Registrar"
+                                (click)="submit()"></app-loading-button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

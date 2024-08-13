@@ -1,0 +1,58 @@
+<app-header-second></app-header-second>
+<div class="container">
+
+    <div class="alert alert-info mt-3 text-justify" role="alert">
+        Todos los procesos gestionados por la <b>Comisaria de Familia</b> son tramitados con el <b>Address {{
+            etherAccount?.address }}</b>,
+        por lo que todo proceso con <b>Address del Propietario del Contrato</b> diferente no pertenece a la comisaria.
+    </div>
+
+    <app-loading *ngIf="requestIsSendingForDetail"></app-loading>
+    <div class="mt-3" *ngIf="!requestIsSendingForDetail">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Proceso {{ ' - ' + documentDetail?.document_number }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label class="form-label">Título</label>
+                <input type="text" class="form-control" disabled value="{{ documentDetail.title | titlecase }}">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label class="form-label">Módulo</label>
+                <input type="text" class="form-control" disabled value="{{ documentDetail.module | titlecase }}">
+            </div>
+            <div class="col-md-6 col-sm-12 mt-3">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-control" disabled value="{{ address | titlecase }}">
+            </div>
+            <div class="col-md-6 col-sm-12 mt-3">
+                <label class="form-label">Proceso en Curso</label>
+                <input type="text" class="form-control" disabled
+                    value="{{ documentDetail.is_open ? 'Abierto' : 'Cerrado' }}">
+            </div>
+            <div class="col-md-6 col-sm-12 mt-3">
+                <label class="form-label">Address del Propietario del Contrato</label>
+                <input type="text" class="form-control" disabled value="{{ documentDetail.owner }}">
+            </div>
+        </div>
+        <br>
+        <br>
+        <h3>Gestión del proceso</h3>
+        <hr>
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered dataTable table-hover"
+            *ngIf="!requestIsSendingForPageControl">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th style="width: 100px; text-align: center;">Orden</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listOfPageControls" style="cursor: pointer;">
+                    <td>{{ item.name | titlecase}}</td>
+                    <td style="text-align: center;">{{ item.orderDocument }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

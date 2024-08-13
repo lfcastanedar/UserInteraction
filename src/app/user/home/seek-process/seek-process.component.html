@@ -1,0 +1,64 @@
+<form [formGroup]="form" class="mx-3">
+    <div class="p-3 mb-3 container-radio">
+        <div class="form-check">
+            <input class="form-check-input" formControlName="type" type="radio" name="type" id="process"
+                value="process">
+            <label form="process" class="form-check-label">
+                Buscar por número de la denuncia
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" formControlName="type" type="radio" name="type" id="address"
+                value="address">
+            <label form="address" class="form-check-label">
+                Buscar por address del contrato inteligente
+            </label>
+        </div>
+        <div class="form-text invalid-input" *ngIf="typeField?.errors?.['required'] && typeField?.touched">*Este
+            campo es obligatorio</div>
+    </div>
+    <div class="mb-3">
+        <label for="number" class="form-label">Número de identificación</label>
+        <input type="text" class="form-control" id="number" formControlName="number"
+            placeholder="Ingrese el número de identificación">
+        <div class="form-text invalid-input" *ngIf="numberField?.errors?.['required'] && numberField?.touched">*Este
+            campo es obligatorio</div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12 text-center">
+            <app-loading-button class="btn btn-success width-button m-1" [requestIsSending]="requestForProcessNumber"
+                [type]="buttonTypes.submit" title="Buscar" (click)="submit()"></app-loading-button>
+            <button type="button" class="btn btn-secondary width-button m-1" aria-label="Left Align"
+                (click)="clearForm()">
+                <i class="fas fa-eraser mr-2"></i>Limpiar
+            </button>
+        </div>
+
+    </div>
+
+</form>
+
+<h3 *ngIf="showTable == true" style="margin: 50px 0px;">Listado de resultados</h3>
+<table *ngIf="showTable == true" datatable [dtOptions]="dtOptions" class="table table-bordered dataTable table-hover">
+    <thead>
+        <tr>
+            <th>No Denuncia</th>
+            <th>Address</th>
+            <th>Título</th>
+            <th>Módulo</th>
+            <th>Estado</th>
+            <th>Solicitante</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of listOfDocuments" [routerLink]="['./proceso', item.address]" style="cursor: pointer">
+            <td>{{ item.document_number }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.title | titlecase }}</td>
+            <td>{{ item.model_pages_name }}</td>
+            <td>{{ item.steps_title }}</td>
+            <td>{{ item.applicant }}</td>
+        </tr>
+    </tbody>
+</table>

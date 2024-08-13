@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row" style="min-height: 578px;">
+                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <img src="assets\img\photo_2023-04-07_20-34-15.jpg" style="width: 100%;" alt=""
+                                    srcset="">
+                            </div>
+                            <form class="user mt-3" [formGroup]="form">
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="email"
+                                        placeholder="Correo electronico" formControlName="email">
+                                    <div class="form-text invalid-input"
+                                        *ngIf="emailField?.errors?.['required'] && emailField?.touched">*Este
+                                        campo es obligatorio</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-user" id="password"
+                                        placeholder="contraseña" formControlName="password">
+                                    <div class="form-text invalid-input"
+                                        *ngIf="passwordField?.errors?.['required'] && passwordField?.touched">*Este
+                                        campo es obligatorio</div>
+                                </div>
+
+                                <app-loading-button class="btn btn-primary btn-user btn-block"
+                                    [requestIsSending]="requestIsSending" [type]="buttonTypes.submit" title="Entrar"
+                                    (click)="submit()"></app-loading-button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

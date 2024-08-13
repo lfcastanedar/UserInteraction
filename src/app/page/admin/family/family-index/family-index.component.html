@@ -1,0 +1,33 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Administrar Comisarias</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="text-end">
+            <a type="button" class="btn btn-success" [routerLink]="['./nueva_comisaria']">Crear Comisaria</a>
+        </div>
+        <app-loading *ngIf="!requestIsSending"></app-loading>
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered dataTable table-hover" *ngIf="requestIsSending">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of comissaryList">
+                    <td>{{ data.name | titlecase }}</td>
+                    <td class="text-center" style="width: 100px;">
+                        <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" [routerLink]="['./editar_comisaria', data.id]">
+                            <i class="far fa-edit"></i>
+                        </button>
+                        <button class="btn btn-datatable btn-icon btn-transparent-dark me-2">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div [ngSwitch]="buttonType">
+    <div *ngSwitchCase="buttonTypes.submit">
+        <span *ngIf="requestIsSending" class="spinner-border" role="status" aria-hidden="true"></span>
+        <i *ngIf="!requestIsSending && icon != undefined" class="{{ icon }}"></i>
+        <span *ngIf="!requestIsSending">{{ title }}</span>
+    </div>
+    <div *ngSwitchCase="buttonTypes.icon">
+        <span *ngIf="requestIsSending" class="spinner-border" role="status" aria-hidden="true" style="width: 1rem;
+        height: 1rem;"></span>
+        <i *ngIf="!requestIsSending" class="{{ icon }}"></i>
+    </div>
+    <div *ngSwitchCase="buttonTypes.button">
+        <button class="btn-secondary" type="button"><i *ngIf="!requestIsSending" class="{{ icon }}"></i></button>
+    </div>
+
+</div>

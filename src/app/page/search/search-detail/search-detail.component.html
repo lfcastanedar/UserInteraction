@@ -1,0 +1,183 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Proceso {{ ' - ' + documentDetail?.document_number }}</h1>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <app-loading *ngIf="requestIsSendingForDetail"></app-loading>
+        <div *ngIf="!requestIsSendingForDetail">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label">Título</label>
+                    <input type="text" class="form-control" disabled value="{{ documentDetail.title | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label">Mídulo</label>
+                    <input type="text" class="form-control" disabled
+                        value="{{ documentDetail.model_pages_name | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12 mt-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" disabled value="{{ documentDetail.address | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12 mt-3">
+                    <label class="form-label">Estado</label>
+                    <input type="text" class="form-control" disabled
+                        value="{{ documentDetail.steps_title | titlecase }}">
+                </div>
+                <div class="col-md-6 col-sm-12 mt-3">
+                    <label class="form-label">Gestionador</label>
+                    <input type="text" class="form-control" disabled
+                        value="{{ documentDetail.user_family_comisssary | titlecase }}">
+                </div>
+            </div>
+        </div>
+        <div class="tab-container mt-3">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a [ngClass]="[ tabSelected === detailTabs.people ? 'nav-link active' : 'nav-link']"
+                        (click)="changeTab(detailTabs.people)">Sujetos Procesales</a>
+                </li>
+                <li class="nav-item">
+                    <a [ngClass]="[ tabSelected === detailTabs.controlPage ? 'nav-link active' : 'nav-link']"
+                        (click)="changeTab(detailTabs.controlPage)">Hoja de Control</a>
+                </li>
+                <li class="nav-item">
+                    <a [ngClass]="[ tabSelected === detailTabs.workflow ? 'nav-link active' : 'nav-link']"
+                        (click)="changeTab(detailTabs.workflow)">Flujo del Proceso</a>
+                </li>
+                <li class="nav-item" *ngIf="listOfPageControls.length > 0">
+                    <a [ngClass]="[ tabSelected === detailTabs.folder ? 'nav-link active' : 'nav-link']"
+                        (click)="changeTab(detailTabs.folder)">Expediente</a>
+                </li>
+            </ul>
+        </div>
+        <div [ngSwitch]="tabSelected" class="mt-3">
+            <div *ngSwitchCase="detailTabs.people">
+                <app-loading *ngIf="requestIsSendingForComplaintParticipants"></app-loading>
+                <table datatable [dtOptions]="dtOptions" class="table table-bordered dataTable table-hover"
+                    *ngIf="!requestIsSendingForComplaintParticipants">
+                    <thead>
+                        <tr>
+                            <th>Nombres y Apellidos</th>
+                            <th>Tipo de Persona</th>
+                            <th>Parentesco con el Presunto Agresor</th>
+                            <th>Desplazado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listOfComplaintParticipants" style="cursor: pointer;"
+                            (click)="openParticipantDetail(item)">
+                            <td>{{ item.first_name }} {{ item.last_name }}</td>
+                            <td>{{ item.person_type_name | titlecase }}</td>
+                            <td>{{ item.relationship_type_name ?? 'N/A' }}</td>
+                            <td>{{ item.displaced == true ? 'Si' : 'No'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngSwitchCase="detailTabs.controlPage">
+                <app-loading *ngIf="requestIsSendingForPageControl"></app-loading>
+                <table datatable [dtOptions]="dtCPOptions" class="table table-bordered dataTable table-hover"
+                    *ngIf="!requestIsSendingForPageControl">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Orden</th>
+                            <th>P.Incio</th>
+                            <th>P.Fin</th>
+                            <th>Origen</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listOfPageControls" style="cursor: pointer;">
+                            <td (click)="openFileModal(item)">{{ item.name | titlecase}}</td>
+                            <td (click)="openFileModal(item)">{{ item.orderDocument }}</td>
+                            <td (click)="openFileModal(item)">{{ item.startPage }}</td>
+                            <td (click)="openFileModal(item)">{{ item.endPage }}</td>
+                            <td (click)="openFileModal(item)">{{ item.origen }}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-secondary" (click)="GetDocument(item)"><i
+                                        class="fas fa-download"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngSwitchCase="detailTabs.workflow">
+                <app-loading *ngIf="requestIsSendingForWorkFlowHistories"></app-loading>
+                <table datatable [dtOptions]="dtWFOptions" class="table table-bordered dataTable table-hover"
+                    *ngIf="!requestIsSendingForWorkFlowHistories">
+                    <thead>
+                        <tr>
+                            <th>Anterior</th>
+                            <th>Siguiente</th>
+                            <th>Creado Por</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listOfWorkFlowHistories" style="cursor: pointer;"
+                            (click)="openWorkFlowHistoryModal(item)">
+                            <td>{{ item.previos_step_title }}</td>
+                            <td>{{ item.next_step_title }}</td>
+                            <td>{{ item.created_by }}</td>
+                            <td>{{ item.created_at | date }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngSwitchCase="detailTabs.folder">
+                Panel donde puedes descargar el expediente
+                <div class="row justify-content-md-center">
+                    <div class="card" style="width: 18rem;">
+                        <img src="assets/img/folder.jpg" class="card-img-top mt-1">
+                        <div class="card-body text-center">
+                            <p class="card-text">Descargar el expediente</p>
+                            <app-loading-button class="btn btn-primary mx-1" [type]="buttonTypes.submit"
+                                [requestIsSending]="requestIsSendingForDowloadFolder" title="Descargar"
+                                (click)="getDocumentFolder()"></app-loading-button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngSwitchCase="detailTabs.manage">
+                Panel donde puedes agregar documentos, modificar los participantes, gestionar el estado o enviar a la
+                siguiente persona de la comisaria para continuar con el proceso
+
+
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="assets/img/people.jpg" class="card-img-top mt-1">
+                            <div class="card-body text-center">
+                                <p class="card-text">Administrar Implicados</p>
+                                <a class="btn btn-primary" [routerLink]="['../', report_id, 'agregar_usuarios']">Ir</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="assets/img/document.jpg" class="card-img-top mt-1">
+                            <div class="card-body text-center">
+                                <p class="card-text">Agregar Documento</p>
+                                <a class="btn btn-primary" [routerLink]="['../', report_id, 'agregar_archivo']">Ir</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="assets/img/workflow.jpg" class="card-img-top mt-1">
+                            <div class="card-body text-center">
+                                <p class="card-text">Flujo de Trabajo</p>
+                                <a class="btn btn-primary" [routerLink]="['../', report_id, 'gestionar_flujo']">Ir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

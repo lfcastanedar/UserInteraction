@@ -1,0 +1,33 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Family Coin</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active" *ngFor="let item of sidebar">
+        <a *ngIf="!item.hasOwnProperty('children')" class="nav-link" [routerLink]="item.path">
+            <i class="{{ item.icon }}"></i>
+            <span>{{ item.title }}</span>
+        </a>
+        <a *ngIf="item.hasOwnProperty('children')" class="nav-link" style="cursor: pointer;" (click)="openSubmenu(item)">
+            <i class="{{ item.icon }}"></i>
+            <span>{{ item.title }}</span>
+        </a>
+        <div *ngIf="item.hasOwnProperty('children')" [ngClass]="item?.active == true ? 'collapse show' : 'collapse'" >
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a *ngFor="let subitem of item.children" class="collapse-item" [routerLink]="subitem.path">{{ subitem.title }}</a>
+            </div>
+        </div>
+    </li>
+
+
+
+</ul>

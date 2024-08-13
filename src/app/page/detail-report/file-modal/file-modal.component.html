@@ -1,0 +1,62 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Detalle del documento</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <label class="form-label">Nombre del Documento</label>
+      <input type="text" class="form-control" disabled value="{{ file.name | titlecase }}">
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-3 col-sm-12">
+      <label class="form-label">Función Resumen</label>
+      <input type="text" class="form-control" disabled value="{{ file.hashAlgorithm | uppercase }}">
+    </div>
+    <div class="col-md-9 col-sm-12">
+      <label class="form-label">Valor Huella</label>
+      <input type="text" class="form-control" disabled value="{{ file.hash  }}">
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-3 col-sm-12">
+      <label class="form-label">Origen</label>
+      <input type="text" class="form-control" disabled value="{{ file.origen | titlecase }}">
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <label class="form-label">Orden de Anexión</label>
+      <input type="text" class="form-control" disabled value="{{ file.orderDocument }}">
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <label class="form-label">Página Inicio</label>
+      <input type="text" class="form-control" disabled value="{{ file.startPage }}">
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <label class="form-label">Página Fin</label>
+      <input type="text" class="form-control" disabled value="{{ file.endPage }}">
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-4 col-sm-12">
+      <label class="form-label">Formato</label>
+      <input type="text" class="form-control" disabled value="{{ file.format | uppercase }}">
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <label class="form-label">Anexado Por</label>
+      <input type="text" class="form-control" disabled value="{{ file.createdBy | titlecase}}">
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <label class="form-label">Fecha de Incorporación </label>
+      <input type="text" class="form-control" disabled value="{{ file.createOn | date }}">
+    </div>
+  </div>
+  <div class="text-center mt-3">
+    <app-loading-button class="btn btn-secondary mx-1" [type]="buttonTypes.submit"
+                                [requestIsSending]="requestIsSending" [icon]="'fas fa-download mr-2'" title="Descargar el documento"
+                                (click)="GetDocument()"></app-loading-button>
+
+  </div>
+</div>

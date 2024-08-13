@@ -1,0 +1,55 @@
+<app-header-second></app-header-second>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-12 text-center">
+            <h1 style="color: #0a3470;">Pantalla de Inicio</h1>
+        </div>
+    </div>
+    <div class="my-3" *ngIf="optionSelected != mainOption.Main">
+        <a (click)="selectOption(mainOption.Main)" style="cursor: pointer;"><i class="far fa-arrow-alt-circle-left fa-lg"></i>Volver al menu principal</a>
+    </div>
+    
+    <div [ngSwitch]="optionSelected">
+        <div *ngSwitchCase="mainOption.Main">
+            <div class="row justify-content-md-center">
+                <div class="col-md-3">
+                    <div class="card-options" (click)="selectOption(mainOption.ByProcess)">
+                        <i class="far fa-id-card fa-3x"></i>
+                        <div class="mt-1">
+                            Consultar por Número de la Denuncia
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-options" (click)="selectOption(mainOption.ByUser)">
+                        <i class="far fa-list-alt fa-3x"></i>
+                        <div class="mt-1">
+                            Consultar por el Demandante 
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-options" (click)="selectOption(mainOption.Login)">
+                        <i class="far fa-user fa-3x"></i>
+                        <div class="mt-1">
+                            Ingresar como Funcionario
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="mainOption.ByProcess">
+            <app-seek-process></app-seek-process>
+        </div>
+        <div *ngSwitchCase="mainOption.ByUser">
+            <app-seek-by-user></app-seek-by-user>
+        </div>
+        <div *ngSwitchCase="mainOption.Login">
+            <app-login></app-login>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,26 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Bandeja de Entrada</h1>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <app-loading *ngIf="!requestIsSending"></app-loading>
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered dataTable table-hover" *ngIf="requestIsSending">
+            <thead>
+                <tr>
+                    <th>No Denuncia</th>
+                    <th>Título</th>
+                    <th>Módulo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listOfDocuments" [routerLink]="['./', item.address]" style="cursor: pointer">
+                    <td>{{ item.document_number }}</td>
+                    <td>{{ item.title | titlecase }}</td>
+                    <td>{{ item.model_pages_name }}</td>
+                    <td>{{ item.steps_title }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
