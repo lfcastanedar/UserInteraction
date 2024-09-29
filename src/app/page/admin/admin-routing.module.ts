@@ -40,7 +40,7 @@ const routes: Routes = [
         ]
       },
       {
-        data: { breadcrumb: 'Comisarias' },
+        data: { breadcrumb: 'Comisarías' },
         path: 'comisarias',
         children: [
           {
@@ -48,20 +48,20 @@ const routes: Routes = [
             component: FamilyIndexComponent
           },
           {
-            data: { breadcrumb: 'Nueva comisaria' },
+            data: { breadcrumb: 'Nueva comisaría' },
             path: 'nueva_comisaria',
             component: FamilyFormComponent
           },
           {
-            data: { breadcrumb: 'Editar comisaria' },
+            data: { breadcrumb: 'Editar comisaría' },
             path: 'editar_comisaria/:family_id',
             component: FamilyFormComponent
           }
         ]
       },
       {
-        data: { breadcrumb: 'Ether' },
-        path: 'ether',
+        data: { breadcrumb: 'Wallet' },
+        path: 'wallet',
         children: [
           {
             path: '',
