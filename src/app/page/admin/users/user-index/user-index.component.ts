@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/core/services/user.service'
+import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/core/services/user.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-index',
@@ -12,7 +14,7 @@ export class UserIndexComponent implements OnInit {
   
   public dtOptions: DataTables.Settings = {};
 
-  constructor(private _userService: UserService) { 
+  constructor(private _userService: UserService, private _toastr: ToastrService) { 
     this.dtOptions = {
       searching: false,
       language: {
@@ -28,6 +30,14 @@ export class UserIndexComponent implements OnInit {
 
     };
 
+    this.getUsers();
+  }
+
+  ngOnInit(): void {
+  }
+
+  getUsers(){
+    this.requestIsSending = false;
     this._userService.getAllUsers().subscribe(
       {
         next: (response) => {
@@ -37,7 +47,29 @@ export class UserIndexComponent implements OnInit {
     ).add(() => this.requestIsSending = true);
   }
 
-  ngOnInit(): void {
+  deleteUser(user: any){
+    var status: boolean = !user.enabled
+    swal.fire({
+      icon: 'warning',
+      title: 'Atención',
+      text: `¿Esta seguro de ${ status == true ? 'activar' : 'inactivar'} a ${user.first_name + " " + user.last_name }`,
+      showCancelButton: true,
+      confirmButtonText: 'Sí, estoy seguro',
+      cancelButtonText: `No, no estoy seguro`
+    }).then((response: any) => {
+      if(response.isConfirmed){
+        this._userService.putEnableUser({user_id: user.id, enabled: status}).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.getUsers();
+              this._toastr.success(response.message, "Atención");
+            }else{
+              this._toastr.warning(response.message, "Atención");
+            }            
+          }
+        })
+      }
+    })
   }
 
 }

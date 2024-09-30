@@ -17,6 +17,7 @@
                     <th>Rol</th>
                     <th>Comisaría</th>
                     <th>Creado</th>
+                    <th class="text-center">Estado</th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,11 +28,12 @@
                     <td>{{ data.role_title }}</td>
                     <td>{{ data.family_commissary_name }}</td>
                     <td>{{ data.created_at | date}}</td>
+                    <td class="text-center">{{ data.enabled | enabled }}</td>
                     <td class="text-center" style="width: 100px;">
                         <button class="btn btn-datatable btn-icon btn-transparent-dark me-2" [routerLink]="['./editar_usuario', data.id]">
                             <i class="far fa-edit"></i>
                         </button>
-                        <button class="btn btn-datatable btn-icon btn-transparent-dark me-2">
+                        <button (click)="deleteUser(data)" class="btn btn-datatable btn-icon btn-transparent-dark me-2">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </td>
