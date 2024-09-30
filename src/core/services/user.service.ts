@@ -72,6 +72,14 @@ export class UserService {
     );
   }
 
+  putEnableUser(data: any) {
+    return this.http.put(`${ environment.url }/api/users/enable_user`, data).pipe(
+      map((result: any) => {
+        return result;
+      })
+    );
+  }
+
   getProfileNavbar(){
     return JSON.parse(localStorage.getItem('_user') ?? '')
   }

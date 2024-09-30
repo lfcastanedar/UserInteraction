@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FamilyCommissaryService } from 'src/core/services/family-commissary.service';
+import { ToastrService } from 'ngx-toastr';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-family-index',
@@ -12,7 +14,7 @@ export class FamilyIndexComponent implements OnInit {
   public requestIsSending: boolean = false;
   public dtOptions: DataTables.Settings = {};
   
-  constructor(private _familyCommissaryService: FamilyCommissaryService) {
+  constructor(private _familyCommissaryService: FamilyCommissaryService, private _toastr: ToastrService) {
     this.dtOptions = {
       searching: false,
       language: {
@@ -37,6 +39,31 @@ export class FamilyIndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  deleteComissarie(id: string){
+    swal.fire({
+      icon: 'warning',
+      title: 'Atención',
+      text: '¿Esta seguro de eliminiar esta comisaría?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, estoy seguro',
+      cancelButtonText: `No, no estoy seguro`
+    }).then((response: any) => {
+      if(response.isConfirmed){
+        this._familyCommissaryService.delete(id).subscribe(
+          {
+            next: (response: any) => {
+              if(response.result){
+                this.comissaryList = this.comissaryList.filter(x => x.id != id)
+              }else{
+                this._toastr.warning('No se ha podido eliminar la comisaría porque tiene usuarios asociados', 'Atención')
+              }
+            }
+          }
+        )
+      }
+    })
   }
 
 }

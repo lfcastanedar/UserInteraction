@@ -12,6 +12,8 @@ import { FamilyIndexComponent } from './family/family-index/family-index.compone
 import { FamilyFormComponent } from './family/family-form/family-form.component';
 import { EtherIndexComponent } from './ether/ether-index/ether-index.component';
 
+import { EnabledPipe } from 'src/core/pipes/enablePipe';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { EtherIndexComponent } from './ether/ether-index/ether-index.component';
     DataTablesModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    EnabledPipe
   ]
 })
 export class AdminModule { }
