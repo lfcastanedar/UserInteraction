@@ -42,7 +42,6 @@ export class FamilyIndexComponent implements OnInit {
   }
 
   deleteComissarie(id: string){
-    console.log(id)
     swal.fire({
       icon: 'warning',
       title: 'Atención',
